@@ -1,0 +1,20 @@
+    {% for course in courses %}
+
+        <option value = "{{course.id}}">{{course.name}}</option>
+
+    {% endfor %}
+
+    <!-- new_page.html -->
+
+<!-- <form method="post" id="myForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        htmx.setup(document.getElementById("id_department"));
+        htmx.setup(document.getElementById("id_course"));  // Add this line to set up the courses field
+    });
+</script> -->

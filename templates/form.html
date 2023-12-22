@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.9.9/dist/htmx.min.js"></script>
+</head>
+<body>
+    
+
+
+<!-- <form>
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>Submit</button>
+</form> -->
+
+<form>
+    <input type="hidden" name="csrfmiddlewaretoken" value="BVY0XtBj9gyyTRIEZrPIN6HjVDPiDgRK9f4fNCm8qWAvQikmYwUiVzv6W805PdXn">
+    <p>
+    <label for="id_department">Department:</label>
+    <select name="department" hx-get="loadcourse" hx-target="#id_courses" required id="id_department">
+        
+  <!-- <option value="" selected>---------</option>
+
+  <option value="1">CHEMISTRY</option>
+
+  <option value="2">MATHEMATICS</option>
+
+  <option value="3">SCIENCE</option> -->
+
+</select>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_courses">Courses:</label>
+    <select name="courses" required id="id_courses">
+  <option value="" selected>---------</option>
+
+</select>
+    
+    
+      
+    
+  </p>
+    <button>Submit</button>
+</form>
+
+
+<!-- Include this script in your HTML template -->
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const departmentSelect = document.getElementById('id_department');
+        const coursesSelect = document.getElementById('id_courses');
+
+        departmentSelect.addEventListener('change', function () {
+            const departmentId = this.value;
+            const url = `loadcourse?department=${departmentId}`;
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                    coursesSelect.innerHTML = '';
+
+                    data.courses.forEach(course => {
+                        const option = document.createElement('option');
+                        option.value = course.id;
+                        option.text = course.name;
+                        coursesSelect.appendChild(option);
+                    });
+                });
+        });
+    });
+</script>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const departmentSelect = document.getElementById('id_department');
+        const coursesSelect = document.getElementById('id_courses');
+
+        departmentSelect.addEventListener('change', function () {
+            const departmentId = this.value;
+            const url = `loadcourse/?department=${departmentId}`;
+
+            fetch(url, {
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken') // You may need to implement getCookie function
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    coursesSelect.innerHTML = '';
+
+                    data.courses.forEach(course => {
+                        const option = document.createElement('option');
+                        option.value = course.id;
+                        option.text = course.name;
+                        coursesSelect.appendChild(option);
+                    });
+                });
+        });
+    });
+</script> -->
+</body>
+</html>

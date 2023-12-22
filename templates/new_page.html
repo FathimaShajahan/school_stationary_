@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Untree.co">
+        <script src="https://unpkg.com/htmx.org@1.9.9/dist/htmx.min.js"></script>
+        <base href="{% get_static_prefix %}">
+        <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+      
+        <meta name="description" content="" />
+        <meta name="keywords" content="bootstrap, bootstrap4" />
+              
+              <!-- Bootstrap CSS -->
+              <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+              <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+              <link href="{% static 'css/tiny-slider.css' %}" rel="stylesheet">
+              
+              <link href="{% static 'css/style.css' %}" rel="stylesheet">
+              <title>SSM SCHOOL STORE </title>
+              
+
+
+              <style>
+                /* Add this to your CSS file or style section */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+#myForm {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="checkbox"] {
+    margin-top: 6px;
+}
+
+input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Optional: Style for hiding/showing the form */
+#myForm.show {
+    display: block;
+}
+
+#myForm.hide {
+    display: none;
+}
+
+              </style>
+
+          
+          </head>
+      
+<body>
+   
+    <!-- NEW PAGE -->
+    <div class="hero">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-5">
+                    <div class="intro-excerpt">
+                        <h1>FILL FORM TO ORDER PRODUCTS</h1>
+                        <div id="confirmation-message">
+                            {% if confirmation_message %}
+                                <p>{{ confirmation_message }}</p>
+                                <a href="{% url 'index' %}">Return to Home Page</a>
+                            {% endif %}
+                        </div>
+                    
+                        <p class="mb-4">To get form for order product click the below button </p>
+                        <!-- <p><a href="" class="btn btn-secondary me-2">CHICK HERE</a> -->
+                            <button id="showFormButton" class="me-2">CLICK HERE</button>
+                           
+                            <form method="post"  id="myForm" style="display: none; " action="{% url 'submit_form' %}">
+                                {% csrf_token %}
+                        
+                                <label for="id_name">Name:</label>
+                                <input type="text" name="name" id="id_name" required><br>
+                        
+                                <label for="id_dob">DOB:</label>
+                                <input type="date" name="dob" id="id_dob" required><br>
+                        
+                                <label for="id_age">Age:</label>
+                                <input type="number" name="age" id="id_age" required><br>
+                        
+                                <label for="id_gender">Gender:</label>
+                                <select name="gender" id="id_gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select><br>
+                        
+                                <label for="id_phone_number">Phone Number:</label>
+                                <input type="tel" name="phone_number" id="id_phone_number" required><br>
+                        
+                                <label for="id_mail_id">Mail ID:</label>
+                                <input type="email" name="mail_id" id="id_mail_id" required><br>
+                        
+                                <label for="id_address">Address:</label>
+                                <textarea name="address" id="id_address" required></textarea><br>
+                        
+                                <p>
+
+
+                                        <label for="id_department">Department:</label>
+                                       <select name="department" hx-get="loadcourse" hx-target="#id_courses" required id="id_department">
+                                          
+                                               <option value="" selected>---------</option>
+                                            
+                                           {% for department in departments %}
+                                               <option value="{{department.id}}">{{department.name}}</option>
+                                           {% endfor %}
+                                      </select>
+                                       </p>
+                                    
+                                </p>
+
+  
+                                <p>
+                                </select>
+                                    
+                                <label for="id_courses">Courses:</label>
+                                <select name="courses" required id="id_courses">
+                                <option value="" selected>---------</option>
+                                </select>
+
+                                </p>
+
+
+
+                                <label for="id_purpose">Purpose:</label>
+                                <select name="purpose" id="id_purpose" required>
+                                    <option value="enquiry">Enquiry</option>
+                                    <option value="place_order">Place Order</option>
+                                    <option value="return">Return</option>
+                                </select><br>
+                        
+                                <label>Materials Provide:</label><br>
+                                <input type="checkbox" name="materials_provide[]" value="debit_note_book"> Debit Note Book<br>
+                                <input type="checkbox" name="materials_provide[]" value="pen"> Pen<br>
+                                <input type="checkbox" name="materials_provide[]" value="exam_papers"> Exam Papers<br>
+                                Add more checkboxes for other materials
+                        
+                                 <br>
+                        
+                                <input type="submit" value="Submit">
+                            </form> 
+                         
+
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="hero-img-wrap">
+                        <img src="images/school.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ <script>
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            const departmentSelect = document.getElementById('id_department');
+            const coursesSelect = document.getElementById('id_courses');
+    
+            departmentSelect.addEventListener('change', function () {
+                const departmentId = this.value;
+                const url = `/credentials/loadcourse?department=${departmentId}`;
+    
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                        coursesSelect.innerHTML = '';
+    
+                        data.courses.forEach(course => {
+                            const option = document.createElement('option');
+                            option.value = course.id;
+                            option.text = course.name;
+                            coursesSelect.appendChild(option);
+                        });
+                    });
+            });
+        });
+    </script> 
+    
+
+
+    
+       
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/tiny-slider.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+</body>
+</html>
